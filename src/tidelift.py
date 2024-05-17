@@ -26,7 +26,7 @@ class TideliftService:
         }
 
     def all_projects_violations_report(self):
-        url = f"https://api.tidelift.com/external-api/v1/{self.config.organization()}/reports/all_projects_violations?report_id=whatever&catalog_name={self.config.catalog()}"
+        url = f"https://api.tidelift.com/external-api/v1/{self.config.organization()}/reports/all_projects_violations?catalog_name={self.config.catalog()}"
 
         response = requests.request(
             "GET",

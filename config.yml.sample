@@ -1,0 +1,9 @@
+jira:
+  project_id: <jira project id>
+  issue_type: "<id of desired issue type>"
+  api_base: "https://<jira site name>.atlassian.net/rest/api/3"
+  unique_field_name: "Violating purl and project hash"
+tidelift:
+  unique_key_parts: ['violating_purl', 'project']
+  organization: <organization id>
+  catalog: <catalog id>

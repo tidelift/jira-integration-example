@@ -1,17 +1,18 @@
 import hashlib
 import json
 import requests
-import pprint
+
 
 class TideliftConfig:
     def __init__(self, config: dict):
         self.config = config
 
     def organization(self):
-        return self.config['organization']
+        return self.config["organization"]
 
     def catalog(self):
-        return self.config['catalog']
+        return self.config["catalog"]
+
 
 class TideliftService:
     def __init__(self, api_key: str, config: TideliftConfig):
@@ -22,7 +23,7 @@ class TideliftService:
         return {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.api_key}"
+            "Authorization": f"Bearer {self.api_key}",
         }
 
     def all_projects_violations_report(self):
@@ -31,13 +32,10 @@ class TideliftService:
         """
         url = f"https://api.tidelift.com/external-api/v1/{self.config.organization()}/reports/all_projects_violations?catalog_name={self.config.catalog()}"
 
-        response = requests.request(
-            "GET",
-            url,
-            headers = self.headers()
-        )
+        response = requests.request("GET", url, headers=self.headers())
 
         return json.loads(response.text)
+
 
 class TideliftUniqueIssue:
     def __init__(self, unique_key_parts: list[str], violations: list[dict]):
@@ -50,9 +48,12 @@ class TideliftUniqueIssue:
             hash.update(part.encode())
         return hash.hexdigest()
 
-import pprint
 
-def process_grouped_violations_node(node, unique_key_parts = []) -> list[TideliftUniqueIssue]:
+
+
+def process_grouped_violations_node(
+    node, unique_key_parts=[]
+) -> list[TideliftUniqueIssue]:
     result: list[TideliftUniqueIssue] = []
 
     for key in node:
@@ -63,16 +64,16 @@ def process_grouped_violations_node(node, unique_key_parts = []) -> list[Tidelif
         else:
             result.append(
                 TideliftUniqueIssue(
-                    unique_key_parts = unique_key_parts + [key],
-                    violations = node[key]
+                    unique_key_parts=unique_key_parts + [key], violations=node[key]
                 )
             )
 
     return result
 
-def generate_unique_tidelift_issues_from_report(report, unique_key_fields = None):
+
+def generate_unique_tidelift_issues_from_report(report, unique_key_fields=None):
     if unique_key_fields is None or len(unique_key_fields) == 0:
-        raise Exception('tidelift.unique_key_fields must have at least one value')
+        raise Exception("tidelift.unique_key_fields must have at least one value")
 
     grouped_violations = {}
     last_unique_key_field = unique_key_fields[-1]
@@ -92,7 +93,4 @@ def generate_unique_tidelift_issues_from_report(report, unique_key_fields = None
                     current_location[violation_field_value] = {}
                 current_location = current_location[violation_field_value]
 
-    tidelift_unique_issues: list[TideliftUniqueIssue] = []
-
     return process_grouped_violations_node(grouped_violations)
-

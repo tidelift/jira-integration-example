@@ -1,4 +1,4 @@
-# Creating Jira issues from the Tidelift All Violations JSON Report
+# Creating Jira issues from the Tidelift All Projects Violations JSON Report
 
 This code uses the Tidelift All Projects Violations JSON report to create or
 update issues on a specific Jira board. In this example:

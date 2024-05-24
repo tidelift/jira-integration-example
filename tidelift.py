@@ -1,5 +1,4 @@
 import hashlib
-import json
 import requests
 
 
@@ -11,7 +10,7 @@ class TideliftConfig:
         return self.config["organization"]
 
     def catalog(self):
-        return self.config["catalog"]
+        return self.config.get("catalog", "default")
 
 
 class TideliftService:
@@ -33,6 +32,11 @@ class TideliftService:
         url = f"https://api.tidelift.com/external-api/v1/{self.config.organization()}/reports/all_projects_violations?catalog_name={self.config.catalog()}"
 
         response = requests.request("GET", url, headers=self.headers())
+
+        if not response.ok:
+            raise Exception(
+                f"Error '{response.status_code}' communicating with Tidelift. Check your Tidelift configuration."
+            )
 
         return response.json()
 

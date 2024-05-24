@@ -1,6 +1,5 @@
 from tidelift import TideliftUniqueIssue
 import requests
-import json
 import copy
 
 
@@ -87,8 +86,21 @@ class JiraService:
         self.config = config
         self.auth = auth
 
-    def build_unique_field_service(self):
+    @staticmethod
+    def request(http_method, url, headers, auth, json=None, params=None):
         response = requests.request(
+            http_method, url, headers=headers, auth=auth, params=params, json=json
+        )
+
+        if not response.ok:
+            raise Exception(
+                f"Error '{response.status_code}' communicating with remote Jira. Check your Jira configuration."
+            )
+
+        return response
+
+    def build_unique_field_service(self):
+        response = JiraService.request(
             "GET", f"{self.config.api_base()}/field", headers=headers, auth=self.auth
         )
 
@@ -116,7 +128,7 @@ class JiraUniqueFieldService:
         self.auth = auth
 
     def search(self, unique_key) -> dict | None:
-        response = requests.request(
+        response = JiraService.request(
             "GET",
             f"{self.config.api_base()}/search",
             headers=headers,
@@ -134,7 +146,7 @@ class JiraUniqueFieldService:
         return existing_issue
 
     def update(self, existing_issue_id, payload):
-        response = requests.request(
+        response = JiraService.request(
             "PUT",
             f"{self.config.api_base()}/issue/{existing_issue_id}",
             json=payload,
@@ -150,7 +162,7 @@ class JiraUniqueFieldService:
         payload["fields"]["project"] = {"key": self.config.project_id()}
         payload["fields"]["issuetype"] = {"id": self.config.issue_type()}
 
-        response = requests.request(
+        response = JiraService.request(
             "POST",
             f"{self.config.api_base()}/issue",
             json=payload,

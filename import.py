@@ -72,4 +72,4 @@ for tidelift_unique_issue in tidelift_unique_issues:
 
         totals["added"] += 1
 
-print(f"Totals: {totals["processed"]} total, {totals["added"]} added, {totals["updated"]} updated")
+print(f"Totals: {totals['processed']} total, {totals['added']} added, {totals['updated']} updated")

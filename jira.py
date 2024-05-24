@@ -137,7 +137,7 @@ class JiraUniqueFieldService:
         response = requests.request(
             "PUT",
             f"{self.config.api_base()}/issue/{existing_issue_id}",
-            data=json.dumps(payload),
+            json=payload,
             headers=headers,
             auth=self.auth,
         )
@@ -153,7 +153,7 @@ class JiraUniqueFieldService:
         response = requests.request(
             "POST",
             f"{self.config.api_base()}/issue",
-            data=json.dumps(payload),
+            json=payload,
             headers=headers,
             auth=self.auth,
         )

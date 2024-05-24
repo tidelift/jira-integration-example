@@ -49,8 +49,6 @@ class TideliftUniqueIssue:
         return hash.hexdigest()
 
 
-
-
 def process_grouped_violations_node(
     node, unique_key_parts=[]
 ) -> list[TideliftUniqueIssue]:

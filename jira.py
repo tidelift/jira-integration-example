@@ -92,7 +92,7 @@ class JiraService:
             "GET", f"{self.config.api_base()}/field", headers=headers, auth=self.auth
         )
 
-        fields = json.loads(response.text)
+        fields = response.json()
         unique_field = [
             field
             for field in fields
@@ -126,7 +126,7 @@ class JiraUniqueFieldService:
             },
         )
 
-        existing_issues = json.loads(response.text)
+        existing_issues = response.json()
         existing_issue = None
         if existing_issues["total"] > 0:
             existing_issue = existing_issues["issues"][0]

@@ -64,8 +64,10 @@ for tidelift_unique_issue in tidelift_unique_issues:
             payload=renderer.to_json_create(), unique_hash=unique_hash
         )
 
-        print(json.dumps(json.loads(response.text), sort_keys=True))
+        print(json.dumps(response.json(), sort_keys=True))
 
         totals["added"] += 1
 
-print(f"Totals: {totals['processed']} total, {totals['added']} added, {totals['updated']} updated")
+print(
+    f"Totals: {totals['processed']} total, {totals['added']} added, {totals['updated']} updated"
+)

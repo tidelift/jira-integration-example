@@ -8,8 +8,8 @@ import json
 
 from requests.auth import HTTPBasicAuth
 
-from src.jira import JiraService, JiraConfig, JiraTideliftUniqueIssueRenderer
-from src.tidelift import TideliftConfig, TideliftService, generate_unique_tidelift_issues_from_report
+from jira import JiraService, JiraConfig, JiraTideliftUniqueIssueRenderer
+from tidelift import TideliftConfig, TideliftService, generate_unique_tidelift_issues_from_report
 
 load_dotenv()
 

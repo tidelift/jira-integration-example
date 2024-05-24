@@ -1,50 +1,7 @@
-from src.tidelift import TideliftUniqueIssue
+from tidelift import TideliftUniqueIssue
 import requests
 import json
 import copy
-
-headers = {
-    "Accept": "application/json",
-    "Content-Type": "application/json"
-}
-
-class JiraConfig:
-    def __init__(self, config: dict):
-        self.config = config
-
-    def api_base(self):
-        return self.config['api_base']
-
-    def unique_field_name(self):
-        return self.config['unique_field_name']
-
-    def project_id(self):
-        return self.config['project_id']
-
-    def issue_type(self):
-        return self.config['issue_type']
-
-class JiraService:
-    def __init__(self, config: JiraConfig, auth):
-        self.config = config
-        self.auth = auth
-
-    def build_unique_field_service(self):
-        response = requests.request(
-            "GET",
-            f"{self.config.api_base()}/field",
-            headers = headers,
-            auth = self.auth
-        )
-
-        fields = json.loads(response.text)
-        unique_field = [field for field in fields if field["name"] == self.config.unique_field_name()][0]
-
-        return JiraUniqueFieldService(
-            config = self.config,
-            unique_field = unique_field,
-            auth = self.auth
-        )
 
 class JiraTideliftUniqueIssueRenderer:
     """
@@ -111,6 +68,49 @@ class JiraTideliftUniqueIssueRenderer:
             )
 
         return output
+
+headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+}
+
+class JiraConfig:
+    def __init__(self, config: dict):
+        self.config = config
+
+    def api_base(self):
+        return self.config['api_base']
+
+    def unique_field_name(self):
+        return self.config['unique_field_name']
+
+    def project_id(self):
+        return self.config['project_id']
+
+    def issue_type(self):
+        return self.config['issue_type']
+
+class JiraService:
+    def __init__(self, config: JiraConfig, auth):
+        self.config = config
+        self.auth = auth
+
+    def build_unique_field_service(self):
+        response = requests.request(
+            "GET",
+            f"{self.config.api_base()}/field",
+            headers = headers,
+            auth = self.auth
+        )
+
+        fields = json.loads(response.text)
+        unique_field = [field for field in fields if field["name"] == self.config.unique_field_name()][0]
+
+        return JiraUniqueFieldService(
+            config = self.config,
+            unique_field = unique_field,
+            auth = self.auth
+        )
 
 class JiraUniqueFieldService:
     def __init__(self, config: JiraConfig, unique_field: dict, auth):

@@ -26,6 +26,9 @@ class TideliftService:
         }
 
     def all_projects_violations_report(self):
+        """
+        This report is regenerated daily for subscribers.
+        """
         url = f"https://api.tidelift.com/external-api/v1/{self.config.organization()}/reports/all_projects_violations?catalog_name={self.config.catalog()}"
 
         response = requests.request(

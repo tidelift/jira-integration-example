@@ -34,7 +34,7 @@ class TideliftService:
 
         response = requests.request("GET", url, headers=self.headers())
 
-        return json.loads(response.text)
+        return response.json()
 
 
 class TideliftUniqueIssue:
@@ -54,15 +54,13 @@ def process_grouped_violations_node(
 ) -> list[TideliftUniqueIssue]:
     result: list[TideliftUniqueIssue] = []
 
-    for key in node:
-        value = node[key]
-
+    for key, value in node.items():
         if isinstance(value, dict):
             result += process_grouped_violations_node(value, unique_key_parts + [key])
         else:
             result.append(
                 TideliftUniqueIssue(
-                    unique_key_parts=unique_key_parts + [key], violations=node[key]
+                    unique_key_parts=unique_key_parts + [key], violations=value
                 )
             )
 

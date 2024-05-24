@@ -14,7 +14,7 @@ update issues on a specific Jira board. In this example:
 You can change the top-level report fields used to create the issues by
 modifying `config.yml` and changing `tidelift.unique_key_parts`. You can
 see all the available report fields in [the Tidelift docs](https://support.tidelift.com/hc/en-us/articles/24883174701332-All-projects-violations-report#h_01HSKW9P4CXD8TNZ4PV1D199DK).
-If you want to modify the contents of the story, examine
+If you want to modify the title and contents of the Jira issue, examine
 `JiraTideliftUniqueIssueRenderer` and the `summary` and `description`
 methods.
 

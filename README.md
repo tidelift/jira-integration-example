@@ -19,8 +19,8 @@ If you want to modify the title and contents of the Jira issue, examine
 `JiraTideliftUniqueIssueRenderer` and the `summary` and `description`
 methods.
 
-Use this code as a base for starting with and customizing your own
-Jira import workflow.
+This is not a full Jira integration! Use this code as a base or inspiration
+to start building your own unique Jira workflow.
 
 ## Requirements
 

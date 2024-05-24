@@ -37,6 +37,12 @@ tidelift_unique_issues = generate_unique_tidelift_issues_from_report(
     unique_key_fields = unique_key_fields
 )
 
+totals = {
+    "processed": 0,
+    "added": 0,
+    "updated": 0
+}
+
 for tidelift_unique_issue in tidelift_unique_issues:
     unique_hash = tidelift_unique_issue.unique_hash()
     renderer = JiraTideliftUniqueIssueRenderer(tidelift_unique_issue)
@@ -45,6 +51,8 @@ for tidelift_unique_issue in tidelift_unique_issues:
     # otherwise create a new story
     existing_issue = jira_unique_field_service.search(unique_hash)
 
+    totals["processed"] += 1
+
     if existing_issue:
         jira_unique_field_service.update(
             existing_issue_id = existing_issue['id'],
@@ -52,6 +60,8 @@ for tidelift_unique_issue in tidelift_unique_issues:
         )
 
         print(f"{existing_issue['id']} Updated")
+
+        totals["updated"] += 1
     else:
         response = jira_unique_field_service.create(
             payload = renderer.to_json_create(),
@@ -59,3 +69,7 @@ for tidelift_unique_issue in tidelift_unique_issues:
         )
 
         print(json.dumps(json.loads(response.text), sort_keys = True))
+
+        totals["added"] += 1
+
+print(f"Totals: {totals["processed"]} total, {totals["added"]} added, {totals["updated"]} updated")

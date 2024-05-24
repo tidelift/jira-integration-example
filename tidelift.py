@@ -72,7 +72,7 @@ def process_grouped_violations_node(node, unique_key_parts = []) -> list[Tidelif
 
 def generate_unique_tidelift_issues_from_report(report, unique_key_fields = None):
     if unique_key_fields is None or len(unique_key_fields) == 0:
-        raise Exception('unique_key_fields must have at least one value')
+        raise Exception('tidelift.unique_key_fields must have at least one value')
 
     grouped_violations = {}
     last_unique_key_field = unique_key_fields[-1]

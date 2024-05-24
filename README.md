@@ -1,7 +1,8 @@
 # Creating Jira issues from the Tidelift All Projects Violations JSON Report
 
 This code uses the Tidelift All Projects Violations JSON report to create or
-update issues on a specific Jira board. In this example:
+update issues on a specific Jira board for a single Tidelift catalog. In
+this example:
 
 * All violations are grouped by **violating purl** and **project name**.
 * The violation details are added to the issue description in a simplistic
@@ -17,6 +18,9 @@ see all the available report fields in [the Tidelift docs](https://support.tidel
 If you want to modify the title and contents of the Jira issue, examine
 `JiraTideliftUniqueIssueRenderer` and the `summary` and `description`
 methods.
+
+Use this code as a base for starting with and customizing your own
+Jira import workflow.
 
 ## Requirements
 

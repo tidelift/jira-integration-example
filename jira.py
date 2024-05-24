@@ -104,7 +104,10 @@ class JiraService:
         )
 
         fields = json.loads(response.text)
-        unique_field = [field for field in fields if field["name"] == self.config.unique_field_name()][0]
+        unique_field = [field for field in fields if field["name"] == self.config.unique_field_name()]
+        if len(unique_field) == 0:
+            raise Exception(f"'{self.config.unique_field_name()}' not found in the remote Jira issue fields list. Do you have the correct field name configured?")
+        unique_field = unique_field[0]
 
         return JiraUniqueFieldService(
             config = self.config,
